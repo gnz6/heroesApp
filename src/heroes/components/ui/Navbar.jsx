@@ -1,20 +1,21 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
 
 
 export const Navbar = () => {
 
+    const {state, logout} = useContext(AuthContext)
     const navigate = useNavigate()
-
+    const {user}  = state
+    
 
     const handleLogout =()=>{
-        setUser(null)
+        logout()
         navigate("/login")
         console.log("logout");
     }
 
-    const [user, setUser] = useState("")
-    const userName = "Gonzalo"
     
 
     return (
@@ -38,9 +39,9 @@ export const Navbar = () => {
                        <h4 class="text-white m-2 active:text-yellow-400"> Search </h4>
                     </NavLink>
              
-                    <h4 class="text-white m-2 active:text-yellow-400"> {user.length? userName : <button onClick={()=> setUser(userName)}>Login</button>} </h4>
+                    <h4 class="text-white m-2 active:text-yellow-400"> {state?.logged? user?.name : null } </h4>
 
-                    <button onClick={handleLogout} class="text-white m-2 active:text-yellow-400"> {user.length? <h4>Logout</h4> : null}</button>
+                    <button onClick={handleLogout} class="text-white m-2 active:text-yellow-400"> {state?.logged? <h4>Logout</h4> : null}</button>
             </div>
 
              
